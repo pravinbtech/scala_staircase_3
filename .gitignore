@@ -1,0 +1,5 @@
+# Project exclude paths
+/src/main/java/demo/food/
+/src/main/java/demo/food/domain/
+/src/main/java/demo/food/domain/internal/
+/target/
