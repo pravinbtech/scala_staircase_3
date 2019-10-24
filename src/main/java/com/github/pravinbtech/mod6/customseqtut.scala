@@ -27,6 +27,9 @@ object customseq {
           c foreach println
       }
     }
+
+
+
   }
 
 
