@@ -12,7 +12,9 @@ trait MySet[A] extends (A=> Boolean) {
   def foreach(f:A=>Unit):Unit
   def flatmap[B](f:A=>MySet[B]):MySet[B]
   def filter(Predicate:A=>Boolean):MySet[A]
-
+  def -(elem:A):MySet[A] //removing
+  def &(anotherset:MySet[A]):MySet[A] //Intersection
+  def --(anotherset:MySet[A]):MySet[A] //difference
 }
 
 class EmptySet[A] extends MySet[A]{
@@ -23,6 +25,9 @@ class EmptySet[A] extends MySet[A]{
   def foreach(f:A=>Unit):Unit=()
   def flatmap[B](f:A=>MySet[B]):MySet[B]=new EmptySet[B]
   def filter(predicate:A=>Boolean):MySet[A]=this
+  def -(elem:A):MySet[A]=this
+  def &(anotherset:MySet[A]):MySet[A]=this
+  def --(anotherset:MySet[A]):MySet[A]=this
 }
 
 class NonemptySet[A] (head:A,tail:MySet[A])extends MySet[A]{
@@ -63,6 +68,20 @@ if (this contains elem)
 
   }
 
+  def -(elem:A):MySet[A]={
+    if(head==elem) tail
+    else
+      tail-elem+head
+  }
+
+  def &(anotherset:MySet[A]):MySet[A]={
+  filter(x=>anotherset.contains(x))
+  }
+
+  def --(anotherset:MySet[A]):MySet[A]={
+
+  }
+
 }
 
 object MySet{
@@ -86,8 +105,9 @@ object MySet{
 object MySetPlayground extends App {
   val s = MySet(1, 2, 3, 4)
   s.foreach(println(_))
-  s + 5 ++ MySet(-1, -2) + 3 flatmap (x => MySet(x, 10 * x)) filter (_ % 2 == 0) foreach println
-
+  s + 5 ++ MySet(-1, -2) + 3 foreach (println(_))
+  //flatmap (x => MySet(x, 10 * x)) filter (_ % 2 == 0) foreach println
+//s.foreach(println(_))
 val d =MySet("a","b","c")
 
  val g= d+"e"
